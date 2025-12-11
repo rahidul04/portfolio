@@ -96,24 +96,26 @@ document.querySelectorAll('.project-card').forEach((card, index) => {
     observer.observe(card);
 });
 
-// Form submission handler
+// Form submission handler with Formspree
 const contactForm = document.querySelector('.contact-form');
-contactForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    
-    // Get form values
-    const name = contactForm.querySelector('input[type="text"]').value;
-    const email = contactForm.querySelector('input[type="email"]').value;
-    const message = contactForm.querySelector('textarea').value;
-    
-    // Simple validation
-    if (name && email && message) {
-        alert('Thank you for your message! I will get back to you soon.');
-        contactForm.reset();
-    } else {
-        alert('Please fill in all fields.');
-    }
-});
+
+if (contactForm) {
+    contactForm.addEventListener('submit', async (e) => {
+        const submitButton = contactForm.querySelector('.submit-button');
+        const originalText = submitButton.textContent;
+        
+        // Show loading state
+        submitButton.textContent = 'Sending...';
+        submitButton.disabled = true;
+        
+        // If using Formspree, the form will handle submission automatically
+        // But we'll add a timeout to show feedback
+        setTimeout(() => {
+            submitButton.textContent = originalText;
+            submitButton.disabled = false;
+        }, 2000);
+    });
+}
 
 // Active navigation link based on scroll position
 const sections = document.querySelectorAll('section[id]');
